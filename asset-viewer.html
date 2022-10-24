@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>doomjs - enemy</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        background-color: #ffffff;
+        margin: 0;
+        overflow: hidden;
+        font-family: arial;
+      }
+
+      #blocker {
+        position: absolute;
+
+        width: 100%;
+        height: 100%;
+
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      #instructions {
+        width: 100%;
+        height: 100%;
+
+        display: -webkit-box;
+        display: -moz-box;
+        display: box;
+
+        -webkit-box-orient: horizontal;
+        -moz-box-orient: horizontal;
+        box-orient: horizontal;
+
+        -webkit-box-pack: center;
+        -moz-box-pack: center;
+        box-pack: center;
+
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        box-align: center;
+
+        color: #ffffff;
+        text-align: center;
+
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/three.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/pistol.js"></script>
+    <script>
+      let camera, scene, renderer, controls;
+      let asset;
+
+      init();
+      animate();
+
+      function init() {
+        camera = new THREE.PerspectiveCamera(
+          70,
+          window.innerWidth / window.innerHeight,
+          1,
+          1000
+        );
+        camera.position.z = 400;
+
+        scene = new THREE.Scene();
+        asset = new Bullet(scene, "Bullet");
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        //
+
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        window.addEventListener("resize", onWindowResize);
+      }
+
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+    </script>
+  </body>
+</html>
