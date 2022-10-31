@@ -32,14 +32,9 @@ class Pistol {
     this.barrel.rotation.z += Math.PI / 2;
 
     this.muzzleFlash = {
-      geometry: new THREE.PlaneGeometry(150, 50),
+      geometry: new THREE.CylinderGeometry(1, 1, 100, 20),
       material: new THREE.MeshBasicMaterial({
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0,
-        map: new THREE.TextureLoader().load(this.flashTexturePath),
-        blending: THREE.AdditiveBlending,
-        depthTest: false,
+        color: 0xdeff05,
       }),
     };
 
@@ -47,7 +42,8 @@ class Pistol {
       this.muzzleFlash["geometry"],
       this.muzzleFlash["material"]
     );
-    this.muzzleFlash["mesh"].position.x += 75;
+    this.muzzleFlash["mesh"].position.x += 80;
+    this.muzzleFlash["mesh"].rotation.z += Math.PI / 2;
 
     this.muzzle = new THREE.Mesh(this.muzzleGeometry, this.material);
     this.muzzle.position.x -= 0.4;
@@ -89,7 +85,7 @@ class Pistol {
     this.muzzle2.material = this.barrel.material = this.darkGreyPhong;
 
     this.mesh = new THREE.Group();
-    this.mesh.add(this.barrel);
+    // this.mesh.add(this.barrel);
 
     this.mesh.add(this.muzzle);
     this.mesh.add(this.muzzle2);
@@ -101,16 +97,7 @@ class Pistol {
       "mousedown",
       function (event) {
         event.preventDefault();
-        // if (!this.pistol.isShooting) {
         this.pistol.shooting = true;
-        // this.pistol.muzzle.position.x -= 5;
-        // if (this.pistol.gunshot.isPlaying) this.pistol.gunshot.stop();
-
-        // this.pistol.gunshot.play();
-        // } else {
-        // this.pistol.gunshot.reset();
-        // this.pistol.gunshot.stop();
-        // }
       }.bind({ pistol: this })
     );
 
@@ -118,16 +105,7 @@ class Pistol {
       "mouseup",
       function (event) {
         event.preventDefault();
-        // if (!this.pistol.isShooting) {
         this.pistol.shooting = false;
-        // this.pistol.muzzle.position.x -= 5;
-        // if (this.pistol.gunshot.isPlaying) this.pistol.gunshot.stop();
-
-        // this.pistol.gunshot.play();
-        // } else {
-        // this.pistol.gunshot.reset();
-        // this.pistol.gunshot.stop();
-        // }
       }.bind({ pistol: this })
     );
   }
