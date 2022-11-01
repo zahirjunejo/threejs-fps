@@ -347,6 +347,9 @@
           if (intersects.length > 0) {
             let intersectingObject = intersects[0].object;
             console.log("intersectObjects", intersectingObject);
+            if (intersectingObject.name.includes("Enemy")) {
+              console.log("Enemy shot down.");
+            }
           }
         },
         false

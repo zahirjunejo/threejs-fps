@@ -32,9 +32,9 @@ class Pistol {
     this.barrel.rotation.z += Math.PI / 2;
 
     this.muzzleFlash = {
-      geometry: new THREE.CylinderGeometry(1, 1, 100, 20),
+      geometry: new THREE.CylinderGeometry(0, 1, 500, 10),
       material: new THREE.MeshBasicMaterial({
-        color: 0xdeff05,
+        color: 0x00f7ff,
       }),
     };
 
@@ -118,14 +118,14 @@ class Pistol {
     if (this.shooting) {
       if (this.muzzle.position.x < -1) {
         this.muzzle.position.x += 1;
-        this.muzzleFlash["material"].opacity = 0;
+        this.muzzleFlash["mesh"].visible = false;
       } else {
         this.muzzle.position.x -= 5;
-        this.muzzleFlash["material"].opacity = 1;
+        this.muzzleFlash["mesh"].visible = true;
       }
     } else {
       this.muzzle.position.x = -0.4;
-      this.muzzleFlash["material"].opacity = 0;
+      this.muzzleFlash["mesh"].visible = false;
     }
   }
 }

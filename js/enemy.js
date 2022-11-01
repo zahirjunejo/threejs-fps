@@ -7,6 +7,7 @@ class Enemy {
     this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.position.y += 10;
+    this.mesh.name = name;
     scene.add(this.mesh);
   }
 
