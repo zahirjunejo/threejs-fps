@@ -3,7 +3,7 @@ class Enemy {
     this.name = name;
     this.isAttacking = true;
     this.target = null;
-    this.geometry = new THREE.BoxGeometry(15, 20, 5);
+    this.geometry = new THREE.SphereGeometry(10, 10, 10);
     this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.position.y += 10;
@@ -31,14 +31,5 @@ class Enemy {
 
   animate() {
     this.mesh.lookAt(this.target.position);
-    // this.mesh.translateZ(0.5);
-    // if (this.isAttacking) {
-    //   this.mesh.position.y += 5;
-    //   if (this.mesh.position.y > 50) {
-    //     this.mesh.position.y = 0;
-    //     this.isAttacking = false;
-    //   }
-    // } else {
-    // }
   }
 }

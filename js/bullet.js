@@ -31,13 +31,5 @@ class Bullet {
 
   animate() {
     this.mesh.translateZ(0.5);
-    // if (this.isAttacking) {
-    //   this.mesh.position.y += 5;
-    //   if (this.mesh.position.y > 50) {
-    //     this.mesh.position.y = 0;
-    //     this.isAttacking = false;
-    //   }
-    // } else {
-    // }
   }
 }
