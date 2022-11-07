@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>three.js - pointerlock controls</title>
+    <title>ThreeJS FPS</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -181,6 +181,7 @@
       let frameCount = 0;
       let distanceTravelled = 0;
       let bullets = [];
+      let enemyGenerator = null;
 
       camera = new THREE.PerspectiveCamera(
         75,
@@ -265,9 +266,15 @@
       // 	doomTheme.setVolume(1.0);
       // 	doomTheme.play();
       // });
-      let enemy = new Enemy(scene, "Enemy");
-      enemy.setPosition(-50, -100);
-      enemy.setTarget(controls.getObject());
+
+      enemyGenerator = new Enemy(scene, "Enemy0");
+      enemyGenerator.setPosition(-50, -100);
+      enemyGenerator.setTarget(controls.getObject());
+      enemies.push(enemyGenerator);
+      enemyGenerator = new Enemy(scene, "Enemy1");
+      enemyGenerator.setPosition(-100, -100);
+      enemyGenerator.setTarget(controls.getObject());
+      enemies.push(enemyGenerator);
 
       // let testBullet = new Bullet(scene, "Bullet");
       // testBullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
@@ -339,6 +346,7 @@
             if (intersectingObject.name.includes("Enemy")) {
               console.log("Enemy shot down.");
               scene.remove(intersectingObject);
+              enemies = enemies.filter((x) => x == intersectingObject.name);
             }
           }
         },
@@ -364,7 +372,17 @@
           let playerPosition = controls.getObject().position;
 
           pistol.animate();
-          enemy.animate();
+          // enemy.animate();
+          enemies.forEach((enemy) => {
+            enemy.animate()
+            if (bulletTime > 1) {
+              let bullet = new Bullet(scene, "Bullet");
+              bullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
+              bullet.setTarget(controls.getObject());
+              bullets.push(bullet);
+              bulletTime = 0;
+            }
+          });
           // testBullet.animate();
           bullets.forEach((bullet) => {
             bullet.animate();
@@ -373,13 +391,13 @@
           var time = performance.now();
           var delta = ((time - prevTime) / 1000) * 2;
           bulletTime += delta;
-          if (bulletTime > 1) {
-            let bullet = new Bullet(scene, "Bullet");
-            bullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
-            bullet.setTarget(controls.getObject());
-            bullets.push(bullet);
-            bulletTime = 0;
-          }
+          // if (bulletTime > 1) {
+          //   let bullet = new Bullet(scene, "Bullet");
+          //   bullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
+          //   bullet.setTarget(controls.getObject());
+          //   bullets.push(bullet);
+          //   bulletTime = 0;
+          // }
 
           velocity.x -= velocity.x * 10.0 * delta;
           velocity.z -= velocity.z * 10.0 * delta;

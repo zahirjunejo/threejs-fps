@@ -3,7 +3,7 @@ class Enemy {
     this.name = name;
     this.isAttacking = true;
     this.target = null;
-    this.geometry = new THREE.SphereGeometry(10, 10, 10);
+    this.geometry = new THREE.BoxGeometry(10, 10, 10);
     this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.position.y += 10;
