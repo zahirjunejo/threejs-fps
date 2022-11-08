@@ -310,7 +310,6 @@
           gltf.scene.scale.x = 50;
           gltf.scene.scale.z = 50;
           scene.add(gltf.scene);
-          // console.log(gltf.scene);
         },
         function (xhr) {
           console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -342,9 +341,7 @@
           let intersects = shoot_raycast.intersectObjects(scene.children, true);
           if (intersects.length > 0) {
             let intersectingObject = intersects[0].object;
-            console.log("intersectObjects", intersectingObject);
             if (intersectingObject.name.includes("Enemy")) {
-              console.log("Enemy shot down.");
               scene.remove(intersectingObject);
               enemies = enemies.filter((x) => x == intersectingObject.name);
             }
@@ -372,18 +369,20 @@
           let playerPosition = controls.getObject().position;
 
           pistol.animate();
-          // enemy.animate();
-          enemies.forEach((enemy) => {
-            enemy.animate()
-            if (bulletTime > 1) {
+
+          if (bulletTime > 2) {
+            for (let i = 0; i < enemies.length; i++) {
+              let enemy = enemies[i];
+              enemy.animate();
               let bullet = new Bullet(scene, "Bullet");
               bullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
               bullet.setTarget(controls.getObject());
               bullets.push(bullet);
-              bulletTime = 0;
             }
-          });
-          // testBullet.animate();
+
+            bulletTime = 0;
+          }
+
           bullets.forEach((bullet) => {
             bullet.animate();
           });
@@ -391,13 +390,6 @@
           var time = performance.now();
           var delta = ((time - prevTime) / 1000) * 2;
           bulletTime += delta;
-          // if (bulletTime > 1) {
-          //   let bullet = new Bullet(scene, "Bullet");
-          //   bullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
-          //   bullet.setTarget(controls.getObject());
-          //   bullets.push(bullet);
-          //   bulletTime = 0;
-          // }
 
           velocity.x -= velocity.x * 10.0 * delta;
           velocity.z -= velocity.z * 10.0 * delta;
