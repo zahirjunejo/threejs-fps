@@ -328,24 +328,36 @@
       }
 
       window.addEventListener("resize", onWindowResize, false);
-
+      var timer = null;
       document.addEventListener(
         "mousedown",
         function (event) {
           event.preventDefault();
-
           if (!canShoot) return;
 
-          let shoot_raycast = new THREE.Raycaster();
-          shoot_raycast.setFromCamera(new THREE.Vector2(), camera);
-          let intersects = shoot_raycast.intersectObjects(scene.children, true);
-          if (intersects.length > 0) {
-            let intersectingObject = intersects[0].object;
-            if (intersectingObject.name.includes("Enemy")) {
-              scene.remove(intersectingObject);
-              enemies = enemies.filter((x) => x == intersectingObject.name);
+          timer = setInterval(function () {
+            let shoot_raycast = new THREE.Raycaster();
+            shoot_raycast.setFromCamera(new THREE.Vector2(), camera);
+            let intersects = shoot_raycast.intersectObjects(
+              scene.children,
+              true
+            );
+            if (intersects.length > 0) {
+              let intersectingObject = intersects[0].object;
+              if (intersectingObject.name.includes("Enemy")) {
+                scene.remove(intersectingObject);
+                enemies = enemies.filter((x) => x == intersectingObject.name);
+              }
             }
-          }
+          }, 50);
+        },
+        false
+      );
+
+      document.addEventListener(
+        "mouseup",
+        function (event) {
+          clearInterval(timer);
         },
         false
       );

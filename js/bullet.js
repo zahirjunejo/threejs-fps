@@ -3,7 +3,7 @@ class Bullet {
     this.name = name;
     this.isAttacking = true;
     this.target = null;
-    this.geometry = new THREE.SphereGeometry(1, 32, 16);
+    this.geometry = new THREE.BoxGeometry(2, 2, 2);
     this.material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.position.y += 10;
