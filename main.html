@@ -194,14 +194,14 @@
       scene.background = new THREE.Color(0x000000);
       scene.fog = new THREE.Fog(game_color, 0, 150);
 
-      var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
+      let light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
       light.position.set(0.5, 1, 0.75);
       scene.add(light);
 
       controls = new THREE.PointerLockControls(camera);
       scene.add(controls.getObject());
 
-      var onKeyDown = function (event) {
+      let onKeyDown = (event) => {
         switch (event.keyCode) {
           case 38: // up
           case 87: // w
@@ -225,7 +225,7 @@
         }
       };
 
-      var onKeyUp = function (event) {
+      let onKeyUp = (event) => {
         switch (event.keyCode) {
           case 38: // up
           case 87: // w
@@ -275,10 +275,18 @@
       enemyGenerator.setPosition(-100, -100);
       enemyGenerator.setTarget(controls.getObject());
       enemies.push(enemyGenerator);
-
-      // let testBullet = new Bullet(scene, "Bullet");
-      // testBullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
-      // testBullet.setTarget(controls.getObject());
+      enemyGenerator = new Enemy(scene, "Enemy2");
+      enemyGenerator.setPosition(-100, -150);
+      enemyGenerator.setTarget(controls.getObject());
+      enemies.push(enemyGenerator);
+      enemyGenerator = new Enemy(scene, "Enemy2");
+      enemyGenerator.setPosition(-94, -295);
+      enemyGenerator.setTarget(controls.getObject());
+      enemies.push(enemyGenerator);
+      enemyGenerator = new Enemy(scene, "Enemy3");
+      enemyGenerator.setPosition(-159, -290);
+      enemyGenerator.setTarget(controls.getObject());
+      enemies.push(enemyGenerator);
 
       let pistol = new Pistol(audioListener);
 
@@ -306,15 +314,15 @@
       let loader = new THREE.GLTFLoader();
       loader.load(
         "assets/level1.gltf",
-        function (gltf) {
+        (gltf) => {
           gltf.scene.scale.x = 50;
           gltf.scene.scale.z = 50;
           scene.add(gltf.scene);
         },
-        function (xhr) {
+        (xhr) => {
           console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
         },
-        function (error) {
+        (error) => {
           console.log(error);
         }
       );
@@ -335,14 +343,15 @@
           event.preventDefault();
           if (!canShoot) return;
 
-          timer = setInterval(function () {
+          timer = setInterval(() => {
             let shoot_raycast = new THREE.Raycaster();
             shoot_raycast.setFromCamera(new THREE.Vector2(), camera);
             let intersects = shoot_raycast.intersectObjects(
               scene.children,
               true
             );
-            if (intersects.length > 0) {
+            console.log(intersects);
+            if (intersects.length > 0 && intersects.length < 2) {
               let intersectingObject = intersects[0].object;
               if (intersectingObject.name.includes("Enemy")) {
                 scene.remove(intersectingObject);
@@ -379,7 +388,7 @@
 
         if (controlsEnabled === true) {
           let playerPosition = controls.getObject().position;
-
+          // console.log("position", playerPosition);
           pistol.animate();
 
           if (bulletTime > 2) {
