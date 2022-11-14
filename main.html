@@ -350,7 +350,16 @@
               scene.children,
               true
             );
-            console.log(intersects);
+
+            scene.add(
+              new THREE.ArrowHelper(
+                shoot_raycast.ray.direction,
+                shoot_raycast.ray.origin,
+                100,
+                0xddff00
+              )
+            );
+
             if (intersects.length > 0 && intersects.length < 2) {
               let intersectingObject = intersects[0].object;
               if (intersectingObject.name.includes("Enemy")) {
@@ -388,21 +397,21 @@
 
         if (controlsEnabled === true) {
           let playerPosition = controls.getObject().position;
-          // console.log("position", playerPosition);
+
           pistol.animate();
 
-          if (bulletTime > 2) {
-            for (let i = 0; i < enemies.length; i++) {
-              let enemy = enemies[i];
-              enemy.animate();
-              let bullet = new Bullet(scene, "Bullet");
-              bullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
-              bullet.setTarget(controls.getObject());
-              bullets.push(bullet);
-            }
+          // if (bulletTime > 2) {
+          //   for (let i = 0; i < enemies.length; i++) {
+          //     let enemy = enemies[i];
+          //     enemy.animate();
+          //     let bullet = new Bullet(scene, "Bullet");
+          //     bullet.setPosition(enemy.mesh.position.x, enemy.mesh.position.z);
+          //     bullet.setTarget(controls.getObject());
+          //     bullets.push(bullet);
+          //   }
 
-            bulletTime = 0;
-          }
+          //   bulletTime = 0;
+          // }
 
           bullets.forEach((bullet) => {
             bullet.animate();
