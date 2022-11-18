@@ -182,6 +182,7 @@
       let distanceTravelled = 0;
       let bullets = [];
       let enemyGenerator = null;
+      let bulletLife = 0;
 
       camera = new THREE.PerspectiveCamera(
         75,
@@ -414,10 +415,6 @@
             bulletTime = 0;
           }
 
-          bullets.forEach((bullet) => {
-            bullet.animate();
-          });
-
           var time = performance.now();
           var delta = ((time - prevTime) / 1000) * 2;
           bulletTime += delta;
@@ -529,6 +526,19 @@
           controls.getObject().translateX(velocity.x * delta);
           controls.getObject().translateY(velocity.y * delta);
           controls.getObject().translateZ(velocity.z * delta);
+
+          bullets.forEach((bullet) => {
+            bullet.animate();
+          });
+
+          console.log("bulletLife", bulletLife);
+          if (bulletLife > 1 && bullets.length > 0) {
+            let bullet = bullets.pop();
+            scene.remove(bullet.mesh);
+            bulletLife = 0;
+          }
+
+          bulletLife += delta;
 
           if (controls.getObject().position.y < 10) {
             velocity.y = 0;
